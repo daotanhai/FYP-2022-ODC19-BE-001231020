@@ -1,0 +1,12 @@
+# Project exclude paths
+/clients/target/
+/customer/target/
+/eureka-server/target/
+/fraud/target/
+/notification/target/
+/User/target
+/.idea
+/postgres-data
+/postgres-data1
+/postgres-data2
+/*/target

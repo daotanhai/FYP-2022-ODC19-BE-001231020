@@ -1,0 +1,45 @@
+services:
+  postgresql-master:
+    image: docker.io/bitnami/postgresql:10
+    ports:
+      - "5432:5432"
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=postgres
+      - POSTGRESQL_REPLICATION_PASSWORD=postgres
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=postgres
+      - ALLOW_EMPTY_PASSWORD=yes
+  postgresql-slave:
+    image: docker.io/bitnami/postgresql:10
+    ports:
+      - "5433:5432"
+    depends_on:
+      - postgresql-master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=postgres
+      - POSTGRESQL_REPLICATION_PASSWORD=postgres
+      - POSTGRESQL_MASTER_HOST=postgresql-master
+      - POSTGRESQL_PASSWORD=postgres
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+      - ALLOW_EMPTY_PASSWORD=yes
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      # Port used for the Zipkin UI and HTTP Api
+      - "9411:9411"
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+volumes:
+  postgresql_master_data:
+    driver: local
+
+# docker compose up -d

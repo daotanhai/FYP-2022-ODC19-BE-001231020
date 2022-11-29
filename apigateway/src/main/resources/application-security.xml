@@ -1,0 +1,3 @@
+<http>
+    <csrf disabled="true"/>
+</http>

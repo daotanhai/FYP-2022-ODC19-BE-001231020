@@ -1,0 +1,48 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: notification
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  zipkin:
+    base-url: http://localhost:9411
+  rabbitmq:
+    addresses: localhost:5672
+  datasource:
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/notification
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+# Email server configuration
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: passmondongiap@gmail.com
+    password: sbntqryxbywkwhvz
+    protocol: smtp
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queue:
+    notification: notification.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key
